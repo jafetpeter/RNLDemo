@@ -1,4 +1,4 @@
-import { use, useEffect } from "react"
+import { useEffect } from "react"
 import AddGenderForm from "./components/AddGenderForm"
 import GenderList from "./components/GenderList"
 
