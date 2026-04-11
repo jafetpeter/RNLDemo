@@ -30,4 +30,39 @@ class GenderController extends Controller
         'message' => 'Gender Successfully Saved.'
     ], 200);
    }
+
+   public function getGender($genderId)
+   {
+    $gender= Gender::find($genderId);
+
+    return response () ->json([
+        'gender' => $gender
+    ], 200);
+   }
+
+   public function updateGender(Request $request, Gender $gender){
+    $validated = $request->validate ([
+        'gender' => ['required', 'min:3', 'max:20']
+    ]);
+
+    $gender->update([
+        'gender'   => $validated['gender']
+    ]);
+
+    $gender = $gender->find($gender);
+
+    return response()->json([
+        'gender' => $gender,
+        'message' => 'Gender Sucessfully Updated.'
+    ], 200);
+   }
+   public function destroyGender(Gender $gender) {
+    $gender->update([
+        'is_deleted' => true
+    ]);
+
+    return response () -> json([
+        'message' => 'Gender Sucessfully Deleted.'
+    ], 200);
+   }
 }

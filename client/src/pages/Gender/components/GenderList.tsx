@@ -3,7 +3,7 @@ import { Table, TableBody, TableCell, TableHeader, TableRow } from "../../../com
 import type { GenderColumns } from "../../../Interface/GenderColumns";
 import GenderService from "../../../services/GenderService";
 import { Spinner } from "../../../components/Spinner/Spinner";
-
+import { Link } from 'react-router-dom';
 interface GenderListProps {
     refreshKey: boolean;
 }
@@ -53,12 +53,12 @@ const GenderList: FC<GenderListProps> = ({ refreshKey }) => {
                         >
                         Gender
                         </TableCell>
-                        {/* <TableCell 
+                        <TableCell
                         isHeader 
                         className="px-5 py-3 font-medium text-center"
                         >
                         Action
-                        </TableCell> */}
+                        </TableCell>
                     </TableRow>
                 </TableHeader>
                 <TableBody className="divide-y divide-gray-100 text-gray-500 text-sm">
@@ -75,6 +75,19 @@ const GenderList: FC<GenderListProps> = ({ refreshKey }) => {
                             </TableCell>
                             <TableCell className="px-4 py-3 text-center">
                                 {gender.gender}
+                            </TableCell>
+                            <TableCell className="px-4 py-3 text-center">
+                                <div className="flex justify-center items-center">
+                                    <Link
+                                     to={`/gender/edit/${gender.gender_id}`}
+                                        className="text-green-600 font-medium hover:underline" >
+                                            Edit</Link>
+                                            <Link
+                                            to={`/gender/delete/${gender.gender_id}`} 
+                                            className="text-red-600 font-medium hover:underline"
+                                            >
+                                                Delete</Link>
+                                </div>
                             </TableCell>
                         </TableRow>
                     ))}
