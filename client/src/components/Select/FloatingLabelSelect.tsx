@@ -7,12 +7,12 @@ interface FloatingLabelSelectProps {
   newLabelClassName?: string;
   labelClassName?: string;
   name: string;
-  value?: string | string;
+  value?: string | any;
   onChange?: (e: ChangeEvent<HTMLSelectElement>) => void;
   required?: boolean;
   autoFocus?: boolean;
   disabled?: boolean;
-  errors?: string[];
+  errors?: string[] | string;
   children: ReactNode;
 }
 
@@ -31,6 +31,12 @@ const FloatingLabelSelect: FC<FloatingLabelSelectProps> = ({
   errors,
   children,
 }) => {
+  const normalizedErrors = Array.isArray(errors)
+    ? errors
+    : errors
+      ? [errors]
+      : [];
+
   return (
     <>
       <div className="relative">
@@ -61,10 +67,10 @@ const FloatingLabelSelect: FC<FloatingLabelSelectProps> = ({
           {label}
           {required && <span className="text-red-600 ml-1">*</span>}
         </label>
-        {errors && errors.length > 0 && (
-          <span className="text-red-600">{errors[0]}</span>
-        )}
       </div>
+      {normalizedErrors.length > 0 && (
+        <span className="text-red-600">{normalizedErrors[0]}</span>
+      )}
     </>
   );
 };
