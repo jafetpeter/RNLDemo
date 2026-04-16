@@ -87,6 +87,9 @@ const AddUserFormModal: FC<AddUserFormModalProps> = ({
         setUsername("");
         setPassword("");
         setErrors({});
+
+        handleLoadGenders();
+
       } else {
         console.error(
           "Unexpected status error occurred during adding user: ",
@@ -132,8 +135,11 @@ const AddUserFormModal: FC<AddUserFormModalProps> = ({
   };
 
   useEffect(() => {
-    handleLoadGenders();
-  }, []);
+    if(isOpen) {
+      handleLoadGenders(); 
+    }
+    
+  }, [isOpen]);
 
   return (
     <>
@@ -200,15 +206,17 @@ const AddUserFormModal: FC<AddUserFormModalProps> = ({
                   required
                   errors={errors.gender}
                 >
-                  <option value="">Select Gender</option>
                   {loadingGenders ? (
                     <option value="">Loading...</option>
                   ) : (
-                    genders.map((gender, index) => (
+                    <>
+                    <option value="">Select Gender</option>
+                    {genders.map((gender, index) => (
                       <option value={gender.gender_id} key={index}>
                         {gender.gender}
                       </option>
-                    ))
+                    )) }
+                    </>
                   )}
                 </FloatingLabelSelect>
               </div>

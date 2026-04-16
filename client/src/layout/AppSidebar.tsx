@@ -6,12 +6,12 @@ const AppSidebar = () => {
 
   const sidebarItems = [
     {
-      path: "/gender",
-      text: "Gender List",
+      path: "/",
+      text: "Gender",
     },
     {
       path: "/users",
-      text: "User List",
+      text: "Users",
     },
   ];
   return (
@@ -44,8 +44,8 @@ const AppSidebar = () => {
             </span>
           </a>
           <ul className="space-y-2 font-medium">
-            {sidebarItems.map((sidebarItem) => (
-              <li key={sidebarItem.text}>
+            {sidebarItems.map((sidebarItem, index) => (
+              <li key={index}>
                 <Link
                   to={sidebarItem.path}
                   className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"

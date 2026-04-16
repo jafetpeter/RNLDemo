@@ -9,6 +9,15 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
+    public function loadUsers() {
+        $users = User::with(['gender'])
+        ->where('tbl_users.is_deleted', false)
+        ->get();
+        return response()->json([
+            'users' => $users
+        ], 200);
+
+    }
     public function storeUser(Request $request) {
         $validated = $request->validate([
             'first_name' => ['required', 'max:55'],
@@ -32,12 +41,12 @@ class UserController extends Controller
             'gender_id' => $validated ['gender'],
             'birth_date' => $validated ['birth_date'],
             'age' => $age,
-            'username' => $validated ['username'], 
+            'username' => $validated ['username'],
             'password' => $validated ['password'],
             'is_deleted' => 0,
-            
+
         ]);
-        
+
         return response() ->json([
             'message' => 'User Successfully Saved.'
         ], 200);
