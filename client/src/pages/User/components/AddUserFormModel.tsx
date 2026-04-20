@@ -4,19 +4,21 @@ import Modal from "../../../components/Modal";
 import FloatingLabelSelect from "../../../components/Select/FloatingLabelSelect";
 import SubmitButton from "../../../components/Button/SubmitButton";
 import CloseButton from "../../../components/Button/CloseButton";
-import type { GenderColumns } from "../../../Interface/GenderColumns";
+import type { GenderColumns } from "../../../Interfaces/GenderColumns";
 import GenderService from "../../../services/GenderService";
-import type { UserFieldErrors } from "../../../Interface/UserFieldErrors";
+import type { UserFieldErrors } from "../../../Interfaces/UserFieldErrors";
 import UserService from "../../../services/UserService";
 
 interface AddUserFormModalProps {
   onUserAdded: (message: string) => void;
+  refreshKey: () => void;
   isOpen: boolean;
   onClose: () => void;
 }
 
 const AddUserFormModal: FC<AddUserFormModalProps> = ({
   onUserAdded,
+  refreshKey,
   isOpen,
   onClose,
 }) => {
@@ -76,8 +78,6 @@ const AddUserFormModal: FC<AddUserFormModalProps> = ({
       const res = await UserService.storeUser(payload);
 
       if (res.status === 200) {
-        onUserAdded(res.data.message);
-
         setFirstName("");
         setMiddleName("");
         setLastName("");
@@ -88,8 +88,10 @@ const AddUserFormModal: FC<AddUserFormModalProps> = ({
         setPassword("");
         setErrors({});
 
+        onUserAdded(res.data.message);
+        
         handleLoadGenders();
-
+        refreshKey();
       } else {
         console.error(
           "Unexpected status error occurred during adding user: ",

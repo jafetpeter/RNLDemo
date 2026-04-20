@@ -6,15 +6,17 @@ import {
   TableHeader,
   TableRow,
 } from "../../../components/Table";
-import type { UserColumns } from "../../../Interface/UserColumns";
+import type { UserColumns } from "../../../Interfaces/UserColumns";
 import UserService from "../../../services/UserService";
 import { Spinner } from "../../../components/Spinner/Spinner";
 
 interface UserlistProps {
-    onAddUser: () => void
+    onAddUser: () => void;
+    onEditUser: (user: UserColumns | null) => void;
+    refreshKey: boolean;
 }
 
-const UserList: FC<UserlistProps> = ({onAddUser}) => {
+const UserList: FC<UserlistProps> = ({onAddUser, onEditUser, refreshKey}) => {
   const [loadingusers, setLoadingUsers] = useState(false);
   const [users, setUsers] = useState<UserColumns[]>([]);
 
@@ -54,7 +56,7 @@ const UserList: FC<UserlistProps> = ({onAddUser}) => {
 
     useEffect(() => {  
         handleLoadUsers();
-    }, []);
+    }, [refreshKey]);
   return (
 
     <>
@@ -128,22 +130,29 @@ const UserList: FC<UserlistProps> = ({onAddUser}) => {
                     <TableCell className="px-4 py-3 text-center">
                       {index + 1}
                     </TableCell>
-                    <TableCell className="px-4 py-3 text-start">
+                    <TableCell className="px-4 py-3 text-center">
                       {handleUserFullNameFormat(user)}
                     </TableCell>
-                    <TableCell className="px-4 py-3 text-start">
+                    <TableCell className="px-4 py-3 text-center">
                       {user.gender.gender}
                     </TableCell>
-                    <TableCell className="px-4 py-3 text-start">
+                    <TableCell className="px-4 py-3 text-center">
                       {user.birth_date}
                     </TableCell>
-                    <TableCell className="px-4 py-3 text-start">
+                    <TableCell className="px-4 py-3 text-center">
                       {user.age}
                     </TableCell>
                     <TableCell className="px-4 py-3 text-center">
-                      <div className="flex gap-4">
-                        <button type="button" className="text-green-600 font-medium cursor-pointer hover:underline">Edit</button>
-                        <button type="button" className="text-red-600 font-medium cursor-pointer hover:underline">Delete</button>
+                      <div className="flex gap-4 justify-center">
+                        <button 
+                          type="button" 
+                          className="text-green-600 font-medium cursor-pointer hover:underline"
+                          onClick={() => onEditUser(user)}
+                        >Edit</button>
+                        <button 
+                          type="button" 
+                          className="text-red-600 font-medium cursor-pointer hover:underline"
+                        >Delete</button>
                       </div>
                       
                     </TableCell>

@@ -2,7 +2,7 @@ import { useState, type FC, type FormEvent } from 'react';
 import SubmitButton from "../../../components/Button/SubmitButton";
 import FloatingLabelInput from "../../../components/Input/FloatingLabelInput"
 import GenderService from "../../../services/GenderService"
-import type { GenderFieldErrors } from "../../../Interface/GenderFieldErrors"
+import type { GenderFieldErrors } from "../../../Interfaces/GenderFieldErrors"
 interface AddGenderFormprops {
   onGenderAdded: (message: string) =>void 
   refreshKey: () => void;

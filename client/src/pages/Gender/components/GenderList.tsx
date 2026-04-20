@@ -1,6 +1,6 @@
 import { useEffect, useState, type FC } from "react";
 import { Table, TableBody, TableCell, TableHeader, TableRow } from "../../../components/Table"
-import type { GenderColumns } from "../../../Interface/GenderColumns";
+import type { GenderColumns } from "../../../Interfaces/GenderColumns";
 import GenderService from "../../../services/GenderService";
 import { Spinner } from "../../../components/Spinner/Spinner";
 import { Link } from 'react-router-dom';
@@ -64,7 +64,7 @@ const GenderList: FC<GenderListProps> = ({ refreshKey }) => {
                 <TableBody className="divide-y divide-gray-100 text-gray-500 text-sm">
                     {loadingGenders ? (
                         <TableRow>
-                            <TableCell colSpan={2} className="px-4 py-3 text-center">
+                            <TableCell colSpan={3} className="px-4 py-3 text-center">
                                 <Spinner size="md" />
                             </TableCell>
                         </TableRow>

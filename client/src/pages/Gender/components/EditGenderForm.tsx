@@ -2,7 +2,7 @@ import { useEffect, useState, type FC, type FormEvent } from "react";
 import BackButton from "../../../components/Button/BackButton";
 import SubmitButton from "../../../components/Button/SubmitButton";
 import FloatingLabelInput from "../../../components/Input/FloatingLabelInput";
-import type { GenderFieldErrors } from "../../../Interface/GenderFieldErrors";
+import type { GenderFieldErrors } from "../../../Interfaces/GenderFieldErrors";
 import GenderService from "../../../services/GenderService";
 import { useParams } from "react-router-dom";
 import { Spinner } from "../../../components/Spinner/Spinner";
