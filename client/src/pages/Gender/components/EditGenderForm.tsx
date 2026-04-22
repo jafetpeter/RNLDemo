@@ -2,16 +2,16 @@ import { useEffect, useState, type FC, type FormEvent } from "react";
 import BackButton from "../../../components/Button/BackButton";
 import SubmitButton from "../../../components/Button/SubmitButton";
 import FloatingLabelInput from "../../../components/Input/FloatingLabelInput";
-import type { GenderFieldErrors } from "../../../Interfaces/GenderFieldErrors";
 import GenderService from "../../../services/GenderService";
 import { useParams } from "react-router-dom";
 import { Spinner } from "../../../components/Spinner/Spinner";
+import type { GenderFieldErrors } from "../../../Interfaces/GenderInterface";
 
 interface EditGenderProps {
   onGenderUpdated: (message: string) => void;
 }
 
-const EditGenderForm: FC<EditGenderProps> = ({ onGenderUpdated }) => {  
+const EditGenderForm: FC<EditGenderProps> = ({ onGenderUpdated }) => {
   const [loadingGet, setLoadingGet] = useState(false);
   const [loadingUpdate, setLoadingUpdate] = useState(false);
   const [gender, setGender] = useState("");
@@ -27,10 +27,16 @@ const EditGenderForm: FC<EditGenderProps> = ({ onGenderUpdated }) => {
       if (res.status === 200) {
         setGender(res.data.gender.gender);
       } else {
-        console.error("Unexpected status error occured during getting gender: ", res.status);
+        console.error(
+          "Unexpected status error occured during getting gender: ",
+          res.status,
+        );
       }
     } catch (error) {
-      console.error("Unexpected server error occured during getting gender: ", error);
+      console.error(
+        "Unexpected server error occured during getting gender: ",
+        error,
+      );
     } finally {
       setLoadingGet(false);
     }
@@ -47,15 +53,21 @@ const EditGenderForm: FC<EditGenderProps> = ({ onGenderUpdated }) => {
       if (res.status === 200) {
         setErrors({});
         setGender(res.data.gender.gender);
-        onGenderUpdated(res.data.message); 
+        onGenderUpdated(res.data.message);
       } else {
-        console.error("Unexpected status error occured during updating gender: ", res.status);
+        console.error(
+          "Unexpected status error occured during updating gender: ",
+          res.status,
+        );
       }
     } catch (error: any) {
       if (error.response && error.response.status === 422) {
         setErrors(error.response.data.errors);
       } else {
-        console.error("Unexpected server error occured during updating gender: ", error);
+        console.error(
+          "Unexpected server error occured during updating gender: ",
+          error,
+        );
       }
     } finally {
       setLoadingUpdate(false);
@@ -67,7 +79,10 @@ const EditGenderForm: FC<EditGenderProps> = ({ onGenderUpdated }) => {
       const parseGenderId = parseInt(gender_id);
       handleGetGender(parseGenderId);
     } else {
-      console.error("Unexpected parameter error occured during getting gender: ", gender_id);
+      console.error(
+        "Unexpected parameter error occured during getting gender: ",
+        gender_id,
+      );
     }
   }, [gender_id]);
 
@@ -92,10 +107,12 @@ const EditGenderForm: FC<EditGenderProps> = ({ onGenderUpdated }) => {
             />
           </div>
           <div className="flex justify-end gap-2">
-            {!loadingUpdate &&(
-            <BackButton label="Back" path="/" />
-            )}
-            <SubmitButton label="Save Gender" loading={loadingUpdate} loadingLabel="Updating Gender..." />
+            {!loadingUpdate && <BackButton label="Back" path="/" />}
+            <SubmitButton
+              label="Save Gender"
+              loading={loadingUpdate}
+              loadingLabel="Updating Gender..."
+            />
           </div>
         </form>
       )}

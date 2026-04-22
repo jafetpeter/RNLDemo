@@ -4,10 +4,10 @@ import Modal from "../../../components/Modal";
 import FloatingLabelSelect from "../../../components/Select/FloatingLabelSelect";
 import SubmitButton from "../../../components/Button/SubmitButton";
 import CloseButton from "../../../components/Button/CloseButton";
-import type { GenderColumns } from "../../../Interfaces/GenderColumns";
 import GenderService from "../../../services/GenderService";
-import type { UserFieldErrors } from "../../../Interfaces/UserFieldErrors";
 import UserService from "../../../services/UserService";
+import type { UserFieldErrors } from "../../../Interfaces/UserInterface";
+import type { GenderColumns } from "../../../Interfaces/GenderInterface";
 
 interface AddUserFormModalProps {
   onUserAdded: (message: string) => void;
@@ -43,12 +43,17 @@ const AddUserFormModal: FC<AddUserFormModalProps> = ({
 
       const clientErrors: UserFieldErrors = {};
 
-      if (!firstName.trim()) clientErrors.first_name = ["The first name field is required."];
-      if (!lastName.trim()) clientErrors.last_name = ["The last name field is required."];
+      if (!firstName.trim())
+        clientErrors.first_name = ["The first name field is required."];
+      if (!lastName.trim())
+        clientErrors.last_name = ["The last name field is required."];
       if (!gender) clientErrors.gender = ["The gender field is required."];
-      if (!birthDate) clientErrors.birth_date = ["The birth date field is required."];
-      if (!username.trim()) clientErrors.username = ["The username field is required."];
-      if (!password) clientErrors.password = ["The password field is required."];
+      if (!birthDate)
+        clientErrors.birth_date = ["The birth date field is required."];
+      if (!username.trim())
+        clientErrors.username = ["The username field is required."];
+      if (!password)
+        clientErrors.password = ["The password field is required."];
       if (!passwordConfirmation) {
         clientErrors.password_confirmation = [
           "The password confirmation field is required.",
@@ -89,7 +94,7 @@ const AddUserFormModal: FC<AddUserFormModalProps> = ({
         setErrors({});
 
         onUserAdded(res.data.message);
-        
+
         handleLoadGenders();
         refreshKey();
       } else {
@@ -137,10 +142,9 @@ const AddUserFormModal: FC<AddUserFormModalProps> = ({
   };
 
   useEffect(() => {
-    if(isOpen) {
-      handleLoadGenders(); 
+    if (isOpen) {
+      handleLoadGenders();
     }
-    
   }, [isOpen]);
 
   return (
@@ -212,12 +216,12 @@ const AddUserFormModal: FC<AddUserFormModalProps> = ({
                     <option value="">Loading...</option>
                   ) : (
                     <>
-                    <option value="">Select Gender</option>
-                    {genders.map((gender, index) => (
-                      <option value={gender.gender_id} key={index}>
-                        {gender.gender}
-                      </option>
-                    )) }
+                      <option value="">Select Gender</option>
+                      {genders.map((gender, index) => (
+                        <option value={gender.gender_id} key={index}>
+                          {gender.gender}
+                        </option>
+                      ))}
                     </>
                   )}
                 </FloatingLabelSelect>

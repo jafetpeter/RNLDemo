@@ -1,22 +1,28 @@
 import { useEffect, useState, type FC } from "react";
 import {
   Table,
-  TableBody, 
+  TableBody,
   TableCell,
   TableHeader,
   TableRow,
 } from "../../../components/Table";
-import type { UserColumns } from "../../../Interfaces/UserColumns";
 import UserService from "../../../services/UserService";
 import { Spinner } from "../../../components/Spinner/Spinner";
+import type { UserColumns } from "../../../Interfaces/UserInterface";
 
 interface UserlistProps {
-    onAddUser: () => void;
-    onEditUser: (user: UserColumns | null) => void;
-    refreshKey: boolean;
+  onAddUser: () => void;
+  onEditUser: (user: UserColumns | null) => void;
+  onDeleteUser: (user: UserColumns | null) => void;
+  refreshKey: boolean;
 }
 
-const UserList: FC<UserlistProps> = ({onAddUser, onEditUser, refreshKey}) => {
+const UserList: FC<UserlistProps> = ({
+  onAddUser,
+  onEditUser,
+  onDeleteUser,
+  refreshKey,
+}) => {
   const [loadingusers, setLoadingUsers] = useState(false);
   const [users, setUsers] = useState<UserColumns[]>([]);
 
@@ -29,36 +35,40 @@ const UserList: FC<UserlistProps> = ({onAddUser, onEditUser, refreshKey}) => {
       if (res.status === 200) {
         setUsers(res.data.users);
       } else {
-        console.error("Unexpected status error occured during loading users: ", res.status);
+        console.error(
+          "Unexpected status error occured during loading users: ",
+          res.status,
+        );
       }
-  } catch(error){
-      console.error("Unexpected status error occured during loading users: ", error);
-
-  } finally {
-    setLoadingUsers(false);
-  }
+    } catch (error) {
+      console.error(
+        "Unexpected status error occured during loading users: ",
+        error,
+      );
+    } finally {
+      setLoadingUsers(false);
+    }
   };
 
   const handleUserFullNameFormat = (user: UserColumns) => {
-    let fullName = ''
-    
-    if(user.middle_name) {
-      fullName = `${user.last_name}, ${user.first_name} ${user.middle_name.charAt(0)}.`
+    let fullName = "";
+
+    if (user.middle_name) {
+      fullName = `${user.last_name}, ${user.first_name} ${user.middle_name.charAt(0)}.`;
     } else {
-      fullName = `${user.last_name}, ${user.first_name}`
+      fullName = `${user.last_name}, ${user.first_name}`;
     }
 
-    if(user.suffix_name) {
-      fullName += ` ${user.suffix_name}`
+    if (user.suffix_name) {
+      fullName += ` ${user.suffix_name}`;
     }
-  return fullName;
+    return fullName;
   };
 
-    useEffect(() => {  
-        handleLoadUsers();
-    }, [refreshKey]);
+  useEffect(() => {
+    handleLoadUsers();
+  }, [refreshKey]);
   return (
-
     <>
       <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
         <div className="max-w-full max-h-[calc(100vh)] overflow-x-auto">
@@ -120,11 +130,10 @@ const UserList: FC<UserlistProps> = ({onAddUser, onEditUser, refreshKey}) => {
               {loadingusers ? (
                 <TableRow>
                   <TableCell colSpan={6} className="px-4 py-3 text-center">
-                    <Spinner size='md'/>
+                    <Spinner size="md" />
                   </TableCell>
                 </TableRow>
-
-              ): (
+              ) : (
                 users.map((user, index) => (
                   <TableRow className="hover:bg-gray-100" key={index}>
                     <TableCell className="px-4 py-3 text-center">
@@ -144,22 +153,25 @@ const UserList: FC<UserlistProps> = ({onAddUser, onEditUser, refreshKey}) => {
                     </TableCell>
                     <TableCell className="px-4 py-3 text-center">
                       <div className="flex gap-4 justify-center">
-                        <button 
-                          type="button" 
+                        <button
+                          type="button"
                           className="text-green-600 font-medium cursor-pointer hover:underline"
                           onClick={() => onEditUser(user)}
-                        >Edit</button>
-                        <button 
-                          type="button" 
+                        >
+                          Edit
+                        </button>
+                        <button
+                          type="button"
                           className="text-red-600 font-medium cursor-pointer hover:underline"
-                        >Delete</button>
+                          onClick={() => onDeleteUser(user)}
+                        >
+                          Delete
+                        </button>
                       </div>
-                      
                     </TableCell>
                   </TableRow>
                 ))
               )}
-              
             </TableBody>
           </Table>
         </div>
